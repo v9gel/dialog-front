@@ -1,12 +1,25 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import Desk from "./components/desk/Desk.vue";
+import Card from "./components/desk/Card.vue";
+import { nanoid } from 'nanoid';
+import { ref } from "@vue/reactivity";
+
+interface CardData {
+  id: string,
+  text: string
+}
+
+const cards = ref([] as CardData[])
+const addCard = () => {
+  cards.value.push({ id: nanoid(), text: 'Текст' } as CardData)
+}
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <Desk>
+    <Card v-for="(card, index) in cards" :key="index">{{card.text}}</Card>
+  </Desk>
+  <button @click="addCard">add</button>
 </template>
 
 <style>
