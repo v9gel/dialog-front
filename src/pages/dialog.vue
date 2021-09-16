@@ -8,6 +8,10 @@ const template = {
   selected: false,
 }
 
+const x2 = ref(200)
+const y2 = ref(200)
+const mouseEnable = ref(true)
+
 const rect = ref(template)
 
 const rects = ref([
@@ -64,6 +68,24 @@ const setEditable = (id: string) => {
   rect.value.selected = true
 }
 
+const makePath = (x1, y1, x2, y2) => {
+  const weight = 0.3
+  const dx = (x2 - x1) * weight
+  const c1 = x1 + dx
+  const c2 = x2 - dx
+  return `<path d="M${x1},${y1} C${c1},${y1} ${c2},${y2} ${x2},${y2}" stroke="black" fill="transparent"/>`
+}
+
+const mouseMove = (e) => {
+  if (mouseEnable.value) {
+    x2.value = e.x
+    y2.value = e.y
+  }
+}
+
+const toggleMouse = () => {
+  mouseEnable.value = !mouseEnable.value
+}
 </script>
 
 <template>
@@ -72,29 +94,32 @@ const setEditable = (id: string) => {
       <!-- <button @click="toggleDraggable">
         Toggle {{ draggable }}
       </button> -->
-      <button class="bg-dark-50 text-cyan-50 border-solid" @click="addRect">
-        Add
-      </button>
-      <input v-model="rect.text" class="border-solid" type="text">
-      <div v-for="(rect, index) in rects" :key="index">
-        <div :class="'target target_' + rect.id + (rect.selected ? ' selected' : '')">
-          {{ rect.text }}
-        </div>
-        <moveable
-          :target="['.target_' + rect.id]"
-          :draggable="draggable"
-          :throttle-drag="1"
-          :edge-draggable="false"
-          :start-drag-rotate="0"
-          :throttle-drag-rotate="0"
-          :edge="true"
-          :resizable="false"
-          @drag="onDrag"
-          @resize="handleResize"
-          @rotate="handleRotate"
-          @click="setEditable(rect.id)"
-        />
-      </div>
+      <svg width="1200" height="330" xmlns="http://www.w3.org/2000/svg">
+        <div @mousemove="mouseMove" @click="toggleMouse" v-html="makePath(100,100,x2,y2)" />
+        <!-- <button class="bg-dark-50 text-cyan-50 border-solid" @click="addRect">
+          Add
+        </button>
+        <input v-model="rect.text" class="border-solid" type="text">
+          <div v-for="(rect, index) in rects" :key="index">
+            <div :class="'target target_' + rect.id + (rect.selected ? ' selected' : '')">
+              {{ rect.text }}
+            </div>
+            <moveable
+              :target="['.target_' + rect.id]"
+              :draggable="draggable"
+              :throttle-drag="1"
+              :edge-draggable="false"
+              :start-drag-rotate="0"
+              :throttle-drag-rotate="0"
+              :edge="true"
+              :resizable="false"
+              @drag="onDrag"
+              @resize="handleResize"
+              @rotate="handleRotate"
+              @click="setEditable(rect.id)"
+            />
+          </div> -->
+      </svg>
     </div>
   </div>
 </template>
@@ -115,7 +140,7 @@ body {
 }
 .container {
   position: relative;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 .target {
