@@ -3,6 +3,7 @@ import Desk from "./components/desk/Desk.vue";
 import Card from "./components/desk/Card.vue";
 import { nanoid } from 'nanoid';
 import { ref } from "@vue/reactivity";
+import './assets/reset.css';
 
 interface CardData {
   id: string,
@@ -17,18 +18,17 @@ const addCard = () => {
 
 <template>
   <Desk>
-    <Card v-for="(card, index) in cards" :key="index">{{card.text}}</Card>
+    <Card v-for="(card, index) in cards" :key="index">{{ card.text }}</Card>
   </Desk>
   <button @click="addCard">add</button>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html,
+body,
+svg {
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 </style>
