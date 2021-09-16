@@ -13,6 +13,8 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "declaration": true,
     "types": [
       "vite/client",
       "vite-plugin-pages/client",
