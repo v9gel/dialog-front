@@ -48,14 +48,15 @@ onUpdated(() => {
 
 <template>
     <div class="button" ref="buttonRef" @mousedown="drag" @mouseup="() => { }">
-        <div class="button-text unselectable">{{ props.button.text }}</div>
+        <!-- <div class="button-text unselectable">{{ props.button.text }}</div> -->
+        <input v-model="props.button.text">
     </div>
 </template>
 
-<style>
+<style scoped>
 .button {
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
 
     display: flex;
     justify-content: center;
@@ -86,5 +87,20 @@ onUpdated(() => {
     position: absolute;
     width: 100%;
     z-index: 1;
+}
+
+input {
+    padding: 10px;
+    outline: none;
+    overflow: hidden;
+    font-family: Roboto;
+    font-style: regular;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    width: 100%;
+    color: #ffffff;
+    background-color: #ffffff00;
+    text-align: center;
 }
 </style>
