@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "@vue/reactivity";
 import { createHydrationRenderer, getCurrentInstance, nextTick, onMounted, onUpdated } from "@vue/runtime-core";
-import { CardData } from "../../store";
+import store, { CardData } from "../../store";
 
 import emitter from './eventBus';
 import Button from "./Button.vue";
@@ -26,16 +26,19 @@ onMounted(() => {
     cardHeight.value = cardRef.value.offsetHeight;
     // textareaRef.value.autoResize();
 
-    nextTick(() => {
-        cardRef.value.container.forEach(ta => {
-            ta.firstChild.dispatchEvent(new Event("keyup"));
-        });
-    });
+    // может надо
+    // nextTick(() => {
+    //     cardRef.value.container.forEach(ta => {
+    //         ta.firstChild.dispatchEvent(new Event("keyup"));
+    //     });
+    // });
 })
 
 onUpdated(() => {
     wrapperHeight.value = wrapperRef.value.offsetHeight + 20;
     cardHeight.value = cardRef.value.offsetHeight;
+    store.commit('lineCalc')
+
 })
 
 const square = ref(props.card.position);
@@ -59,14 +62,24 @@ const drag = (e) => {
         emitter.emit('clean-select')
     }
     select()
+    store.commit('lineCalc')
+    
 }
 const drop = () => {
     dragOffsetX.value = dragOffsetY.value = 0;
     box.value.removeEventListener('mousemove', move)
+    store.commit('lineCalc')
+
 }
 const move = ({ offsetX, offsetY }) => {
-    square.value.x = offsetX - dragOffsetX.value;
-    square.value.y = offsetY - dragOffsetY.value;
+    store.commit('changeCardPosition', {
+        status: props.card.status,
+        x: offsetX - dragOffsetX.value,
+        y: offsetY - dragOffsetY.value
+    });
+    // square.value.x = offsetX - dragOffsetX.value;
+    // square.value.y = offsetY - dragOffsetY.value;
+    store.commit('lineCalc')
 }
 
 const select = () => {
@@ -97,9 +110,7 @@ const setEditable = () => {
             <div ref="wrapperRef" class="wrapper">
                 <div class="card" ref="cardRef">
                     <textarea
-                        :class="{ unselectable: !editable }"
-                        autofocus
-                        tabindex="0"
+                        :class="{ unselectable: !editable }"                        
                         rows="1"
                         ref="textareaRef"
                         v-model="card.text"
@@ -110,7 +121,14 @@ const setEditable = () => {
                     ></textarea>
                 </div>
                 <div class="buttons">
-                    <Button v-for="(button, index) in card.buttons" :key="index" :button="button"></Button>
+                    <Button
+                        ref="buttonRef"
+                        v-for="(button, index) in card.buttons"
+                        :key="index"
+                        :button="button"
+                        :cardHeight="cardHeight"
+                        :cardPosition="square"
+                    ></Button>
                 </div>
             </div>
         </div>

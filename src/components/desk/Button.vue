@@ -1,16 +1,53 @@
 <script setup lang="ts">
 import { computed, ref } from "@vue/reactivity";
-import { createHydrationRenderer, getCurrentInstance, onMounted } from "@vue/runtime-core";
+import { createHydrationRenderer, getCurrentInstance, onMounted, onUpdated } from "@vue/runtime-core";
 import { ButtonData } from "../../store";
 
 const props = defineProps<{
     button: ButtonData;
+    cardHeight: number;
+    cardPosition: {
+        x: number,
+        y: number
+    }
 }>()
 
+const buttonRef = ref(null)
+
+const drag = (e) => {
+
+}
+
+const calculateButtonPosition = () => {
+    let { x, y } = props.cardPosition;
+    x = x + (buttonRef.value.clientWidth / 2)
+    y = y + ((buttonRef.value.clientHeight / 2) + props.cardHeight + 5);
+
+    props.button.position.x = x;
+    props.button.position.y = y;
+
+    console.log(x,y)
+}
+
+onMounted(() => {
+    calculateButtonPosition()
+})
+
+onUpdated(() => {
+    calculateButtonPosition()
+})
+// const drop = () => {
+//     dragOffsetX.value = dragOffsetY.value = 0;
+//     box.value.removeEventListener('mousemove', move)
+// }
+// const move = ({ offsetX, offsetY }) => {
+//     square.value.x = offsetX - dragOffsetX.value;
+//     square.value.y = offsetY - dragOffsetY.value;
+// }
 </script>
 
 <template>
-    <div class="button">
+    <div class="button" ref="buttonRef" @mousedown="drag" @mouseup="() => { }">
         <div class="button-text unselectable">{{ props.button.text }}</div>
     </div>
 </template>
@@ -43,5 +80,11 @@ const props = defineProps<{
     text-align: center;
 
     color: #ffffff;
+}
+
+.glass {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 </style>
