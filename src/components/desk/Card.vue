@@ -15,14 +15,16 @@ const props = defineProps<{
 
 const box = ref(null);
 const instance = ref(null);
-const cardText = ref(null);
-const cardTextHeight = ref(0);
+const wrapperRef = ref(null);
+const wrapperHeight = ref(0);
+const cardRef = ref(null);
+const cardHeight = ref(0);
 
 onMounted(() => {
     box.value = getCurrentInstance()?.ctx.$.parent.refs.box
     instance.value = getCurrentInstance();
-    cardTextHeight.value = cardText.value.offsetHeight;
-    console.log(cardText.value)
+    wrapperHeight.value = wrapperRef.value.offsetHeight;
+    cardHeight.value = cardRef.value.offsetHeight;
 })
 
 const square = ref({
@@ -71,10 +73,10 @@ const cleanSelect = () => {
 </script>
 
 <template>
-    <foreignObject :x="square.x" :y="square.y" width="600" :height="cardTextHeight + 100">
+    <foreignObject :x="square.x" :y="square.y" width="300" :height="wrapperHeight">
         <div xmlns="http://www.w3.org/1999/xhtml">
-            <div class="wrapper">
-                <div class="card" ref="cardText">
+            <div ref="wrapperRef" class="wrapper">
+                <div class="card" ref="cardRef">
                     <div class="card-text unselectable">{{ card.text }}</div>
                 </div>
                 <div class="buttons">
@@ -82,11 +84,10 @@ const cleanSelect = () => {
                 </div>
             </div>
         </div>
-        <!-- <Button v-for="(button, index) in card.buttons" :key="index" :button="button"></Button> -->
     </foreignObject>
     <rect
-        width="600"
-        :height="cardTextHeight"
+        width="300"
+        :height="cardHeight"
         rx="35"
         fill="#ffffff00"
         stroke="#selected ? '#B5E5FF' : '#D4E3EB'"
@@ -103,44 +104,35 @@ const cleanSelect = () => {
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 .wrapper {
-    width: 600px;
-    /* height: 250px; */
+    width: 100%;
 }
 
 .card {
-    /* Rectangle 4 */
-    /* position: absolute; */
-    width: 600px;
-    /* height: var(--cardHeight); */
     left: 81px;
     top: 289px;
 
     background: #ffffff;
-    border-radius: 35px;
+    border-radius: 0.7em;
     box-sizing: border-box;
     border: 1px solid #93b3cb;
 }
 
 .card-text {
-    /* I can help you find and share classical music. Simply send me a query like ‘Mozart’ or use the buttons below. */
     position: relative;
-    width: 556.79px;
-    /* height: 103.37px; */
-    padding: 20px;
+    padding: 10px;
 
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 33px;
-    line-height: 39px;
+    font-size: 14px;
     display: flex;
     align-items: center;
 
     color: #000000;
-    z-index: 100;
 }
 
 .buttons {
+    margin-top: 5px;
     display: flex;
 }
 </style>

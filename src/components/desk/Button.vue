@@ -17,38 +17,27 @@ const props = defineProps<{
 
 <style>
 .button {
-    margin-top: 15px;
-    width: 600px;
-    height: 85px;
-    left: 81px;
-    top: 465px;
+    width: 100%;
+    padding: 10px;
 
     display: flex;
     justify-content: center;
 
     background: #9aa9b2;
-    border-radius: 15px;
+    border-radius: 0.5em;
     box-sizing: border-box;
 }
 
 .button + .button {
-    margin-left: 15px;
+    margin-left: 5px;
 }
 
 /* Send music to friends */
 .button-text {
-    /* position: absolute; */
-    /* width: 600px;
-    height: 39px;
-    left: 81px;
-    top: 488px; */
-
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 33px;
-    line-height: 39px;
-    /* identical to box height */
+    font-size: 14px;
     display: flex;
     align-items: center;
     text-align: center;
