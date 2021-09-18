@@ -82,7 +82,7 @@ const cleanSelect = () => {
 }
 
 const resizeTextarea = (area) => {
-    // let area = e.target;
+    area.style.overflow = 'hidden';
     area.style.height = area.scrollHeight + 'px';
 }
 
@@ -180,7 +180,7 @@ p {
 textarea {
     padding: 10px;
     outline: none;
-    overflow: auto;
+    overflow: hidden;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
