@@ -14,15 +14,13 @@ const props = defineProps<{
 }>()
 
 const box = ref(null);
-const instance = ref(null);
 const wrapperRef = ref(null);
 const wrapperHeight = ref(0);
 const cardRef = ref(null);
 const cardHeight = ref(0);
 
 onMounted(() => {
-    box.value = getCurrentInstance()?.ctx.$.parent.refs.box
-    instance.value = getCurrentInstance();
+    box.value = getCurrentInstance().parent.refs.box
     wrapperHeight.value = wrapperRef.value.offsetHeight;
     cardHeight.value = cardRef.value.offsetHeight;
 })
