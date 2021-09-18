@@ -45,4 +45,5 @@ body {
     user-select: none; /* Non-prefixed version, currently
                                   not supported by any browser */
 }
+.unselectable::selection {color:currentColor;background:transparent}
 </style>

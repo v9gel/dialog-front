@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "@vue/reactivity";
-import { createHydrationRenderer, getCurrentInstance, onMounted } from "@vue/runtime-core";
+import { createHydrationRenderer, getCurrentInstance, nextTick, onMounted, onUpdated } from "@vue/runtime-core";
 import { CardData } from "../../store";
 
 import emitter from './eventBus';
@@ -18,10 +18,23 @@ const wrapperRef = ref(null);
 const wrapperHeight = ref(0);
 const cardRef = ref(null);
 const cardHeight = ref(0);
+const textareaRef = ref(null);
 
 onMounted(() => {
     box.value = getCurrentInstance().parent.refs.box
     wrapperHeight.value = wrapperRef.value.offsetHeight;
+    cardHeight.value = cardRef.value.offsetHeight;
+    // textareaRef.value.autoResize();
+
+    nextTick(() => {
+        cardRef.value.container.forEach(ta => {
+            ta.firstChild.dispatchEvent(new Event("keyup"));
+        });
+    });
+})
+
+onUpdated(() => {
+    wrapperHeight.value = wrapperRef.value.offsetHeight + 20;
     cardHeight.value = cardRef.value.offsetHeight;
 })
 
@@ -36,7 +49,7 @@ const selected = ref(false)
 
 const cursor = computed(() => `cursor: ${dragOffsetX.value ? 'grabbing' : 'grab'}`)
 
-
+const editable = ref(0);
 
 const drag = (e) => {
     const { offsetX, offsetY, ctrlKey } = e;
@@ -51,7 +64,6 @@ const drag = (e) => {
     select()
 }
 const drop = () => {
-    console.log(123)
     dragOffsetX.value = dragOffsetY.value = 0;
     box.value.removeEventListener('mousemove', move)
 }
@@ -68,6 +80,17 @@ const select = () => {
 const cleanSelect = () => {
     selected.value = false;
 }
+
+const resizeTextarea = (area) => {
+    // let area = e.target;
+    area.style.height = area.scrollHeight + 'px';
+}
+
+const setEditable = () => {
+    editable.value = true;
+    textareaRef.value.focus()
+}
+
 </script>
 
 <template>
@@ -75,7 +98,18 @@ const cleanSelect = () => {
         <div xmlns="http://www.w3.org/1999/xhtml">
             <div ref="wrapperRef" class="wrapper">
                 <div class="card" ref="cardRef">
-                    <div class="card-text unselectable">{{ card.text }}</div>
+                    <textarea
+                        :class="{ unselectable: !editable }"
+                        autofocus
+                        tabindex="0"
+                        rows="1"
+                        ref="textareaRef"
+                        v-model="card.text"
+                        @blur="editable = false"
+                        @focus="resizeTextarea(textareaRef)"
+                        @keyup="resizeTextarea(textareaRef)"
+                        style="resize: none;"
+                    ></textarea>
                 </div>
                 <div class="buttons">
                     <Button v-for="(button, index) in card.buttons" :key="index" :button="button"></Button>
@@ -92,8 +126,10 @@ const cleanSelect = () => {
         :x="square.x"
         :y="square.y"
         :style="cursor"
+        v-if="!editable"
         @mousedown="drag"
         @mouseup="drop"
+        @dblclick="setEditable"
     />
 </template>
 
@@ -122,15 +158,35 @@ const cleanSelect = () => {
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
-    display: flex;
+    /* font-size: 14px; */
     align-items: center;
 
     color: #000000;
 }
 
+p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: initial;
+    height: 19px;
+}
+
 .buttons {
     margin-top: 5px;
     display: flex;
+}
+
+textarea {
+    padding: 10px;
+    outline: none;
+    overflow: auto;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    border: none;
+    width: 100%;
+    background-color: #ffffff00;
 }
 </style>

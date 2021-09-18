@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { nanoid } from 'nanoid';
 
 const store = createStore({
     state() {
@@ -47,6 +48,17 @@ const store = createStore({
         }
     },
     mutations: {
+        addCard(state) {
+            state.cards.push(
+                {
+
+                    "status": nanoid(),
+                    "text": "Текст сообщения",
+                    "buttons": []
+
+                }
+            )
+        }
     }
 })
 
@@ -56,7 +68,7 @@ export interface ButtonData {
 }
 
 export interface CardData {
-    id: string
+    status: string
     text: string
     buttons: ButtonData[]
 }
