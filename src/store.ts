@@ -15,16 +15,6 @@ const store = createStore({
                     ]
                 },
                 {
-                    "status": "START",
-                    "text": "Привет",
-                    "buttons": [
-                        {
-                            "text": "Привет",
-                            "to": "WHAT_WE_WILL_DO"
-                        }
-                    ]
-                },
-                {
                     "status": "WHAT_WE_WILL_DO",
                     "text": "Чем займемся?",
                     "buttons": [
