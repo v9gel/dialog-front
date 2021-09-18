@@ -13,7 +13,11 @@ const store = createStore({
                             "text": "Привет",
                             "to": "WHAT_WE_WILL_DO"
                         }
-                    ]
+                    ],
+                    position: {
+                        x: 100,
+                        y: 100
+                    }
                 },
                 {
                     "status": "WHAT_WE_WILL_DO",
@@ -27,7 +31,11 @@ const store = createStore({
                             "text": "Мне пора",
                             "to": "END"
                         }
-                    ]
+                    ],
+                    position: {
+                        x: 100,
+                        y: 200
+                    }
                 },
                 {
                     "status": "TALK",
@@ -37,12 +45,20 @@ const store = createStore({
                             "text": "Ну учись",
                             "to": "END"
                         }
-                    ]
+                    ],
+                    position: {
+                        x: 100,
+                        y: 300
+                    }
                 },
                 {
                     "status": "END",
                     "text": "Пока",
-                    "buttons": []
+                    "buttons": [],
+                    position: {
+                        x: 100,
+                        y: 400
+                    }
                 }
             ]
         }
@@ -54,7 +70,11 @@ const store = createStore({
 
                     "status": nanoid(),
                     "text": "Текст сообщения",
-                    "buttons": []
+                    "buttons": [],
+                    position: {
+                        x: Math.floor(Math.random() * (window.innerWidth - 300)),
+                        y: Math.floor(Math.random() * (window.innerHeight - 100))
+                    }
 
                 }
             )
@@ -71,6 +91,10 @@ export interface CardData {
     status: string
     text: string
     buttons: ButtonData[]
+    position: {
+        x: number,
+        y: number
+    }
 }
 
 export default store;

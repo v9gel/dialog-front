@@ -38,10 +38,7 @@ onUpdated(() => {
     cardHeight.value = cardRef.value.offsetHeight;
 })
 
-const square = ref({
-    x: 100,
-    y: 100,
-});
+const square = ref(props.card.position);
 const dragOffsetX = ref(0)
 const dragOffsetY = ref(0)
 
