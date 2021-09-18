@@ -83,6 +83,7 @@ const cleanSelect = () => {
 
 const resizeTextarea = (area) => {
     area.style.overflow = 'hidden';
+    area.style.height = 0;
     area.style.height = area.scrollHeight + 'px';
 }
 
