@@ -21,6 +21,11 @@ const add = () => {
 
 const json = () => {
     console.log(JSON.stringify(store.state.cards))
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(store.state.cards)], { type: 'text/plain' });
+    a.href = URL.createObjectURL(file);
+    a.download = 'dialog.json';
+    a.click();
 }
 </script>
 
