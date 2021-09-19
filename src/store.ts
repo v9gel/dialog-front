@@ -103,10 +103,6 @@ const store = createStore({
 
             card.position.x = payload.x
             card.position.y = payload.y
-
-
-
-            // console.log(state.lines)
         },
         lineCalc(state) {
             state.lines.splice(0, state.lines.length);
@@ -114,7 +110,7 @@ const store = createStore({
                 c1.buttons.map((b, index) => {
                     const end = state.cards.find(c2 => c2.status === b.to);
                     if (end) {
-                        
+
                         const buttonWidth = (300 / c1.buttons.length) - ((c1.buttons.length - 1) * 5)
                         console.log(b.text, buttonWidth, index)
 
@@ -122,7 +118,7 @@ const store = createStore({
                         state.lines.push(
                             {
                                 start: {
-                                    x: c1.position.x + (buttonWidth/2) + ((buttonWidth + 5) * (index)),
+                                    x: c1.position.x + (buttonWidth / 2) + ((buttonWidth + 5) * (index)),
                                     y: c1.position.y + 64
                                 },
                                 end: {
@@ -134,37 +130,19 @@ const store = createStore({
                     }
                 })
             })
+        },
+        addButton(state, payload) {
+            const card = state.cards.find(e => e.status === payload)
+            card.buttons.push({
+                id: nanoid(),
+                "text": "Кнопка",
+                "to": null,
+                position: {
 
-            // state.lines = lines;
-            // state.lines.reverse()
+                }
+            })
         }
     },
-    // getters: {
-    //     lines1: (state) => {
-    //         const lines = [];
-    //         state.cards.map(c1 => {
-    //             c1.buttons.map(b => {
-    //                 const end = state.cards.find(c2 => c2.status === b.to);
-    //                 if (end) {
-    //                     lines.push(
-    //                         {
-    //                             start: b.position,
-    //                             end: {
-    //                                 x: end.position.x + 150,
-    //                                 y: end.position.y
-    //                             }
-    //                         }
-    //                     )
-    //                 }
-    //             })
-    //         })
-    //         console.log(lines)
-    //         return lines;
-    //     },
-    //     line2: (state) => {
-    //         lineCalc(state)
-    //     }
-    // }
 })
 
 store.commit('lineCalc')

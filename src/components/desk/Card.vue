@@ -5,6 +5,7 @@ import store, { CardData } from "../../store";
 
 import emitter from './eventBus';
 import Button from "./Button.vue";
+import NewButton from "./NewButton.vue";
 emitter.on('clean-select', e => {
     cleanSelect()
 })
@@ -19,11 +20,15 @@ const wrapperHeight = ref(0);
 const cardRef = ref(null);
 const cardHeight = ref(0);
 const textareaRef = ref(null);
+const buttonsRef = ref(null);
+const buttonsHeight = ref(0)
+
 
 onMounted(() => {
     box.value = getCurrentInstance().parent.refs.box
     wrapperHeight.value = wrapperRef.value.offsetHeight;
     cardHeight.value = cardRef.value.offsetHeight;
+    buttonsHeight.value = buttonsRef.value.offsetHeight;
     // textareaRef.value.autoResize();
 
     // может надо
@@ -63,7 +68,7 @@ const drag = (e) => {
     }
     select()
     store.commit('lineCalc')
-    
+
 }
 const drop = () => {
     dragOffsetX.value = dragOffsetY.value = 0;
@@ -105,12 +110,17 @@ const setEditable = () => {
 </script>
 
 <template>
-    <foreignObject :x="square.x" :y="square.y" width="300" :height="wrapperHeight">
+    <foreignObject
+        :x="square.x"
+        :y="square.y"
+        :width="300 + buttonsHeight + 5"
+        :height="wrapperHeight"
+    >
         <div xmlns="http://www.w3.org/1999/xhtml">
             <div ref="wrapperRef" class="wrapper">
                 <div class="card" ref="cardRef">
                     <textarea
-                        :class="{ unselectable: !editable }"                        
+                        :class="{ unselectable: !editable }"
                         rows="1"
                         ref="textareaRef"
                         v-model="card.text"
@@ -120,15 +130,15 @@ const setEditable = () => {
                         style="resize: none;"
                     ></textarea>
                 </div>
-                <div class="buttons">
+                <div class="buttons" ref="buttonsRef">
                     <Button
-                        ref="buttonRef"
                         v-for="(button, index) in card.buttons"
                         :key="index"
                         :button="button"
                         :cardHeight="cardHeight"
                         :cardPosition="square"
                     ></Button>
+                    <NewButton :currentButtonsCount="card.buttons.length" :card="card"></NewButton>
                 </div>
             </div>
         </div>
@@ -154,7 +164,7 @@ const setEditable = () => {
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
 .wrapper {
-    width: 100%;
+    width: 300px;
 }
 
 .card {
