@@ -26,22 +26,6 @@ const buttonsHeight = ref(0)
 
 
 onMounted(() => {
-<<<<<<< HEAD
-    box.value = getCurrentInstance().parent.refs.box
-    wrapperHeight.value = wrapperRef.value.offsetHeight;
-    cardHeight.value = cardRef.value.offsetHeight;
-    buttonsHeight.value = buttonsRef.value.offsetHeight;
-    // textareaRef.value.autoResize();
-
-    // может надо
-    // nextTick(() => {
-    //     cardRef.value.container.forEach(ta => {
-    //         ta.firstChild.dispatchEvent(new Event("keyup"));
-    //     });
-    // });
-
-    resizeTextarea(textareaRef.value);
-=======
   box.value = getCurrentInstance().parent.refs.box
   wrapperHeight.value = wrapperRef.value.offsetHeight;
   cardHeight.value = cardRef.value.offsetHeight;
@@ -54,7 +38,7 @@ onMounted(() => {
   //         ta.firstChild.dispatchEvent(new Event("keyup"));
   //     });
   // });
->>>>>>> 10b419d4fada2d5c5762e6f6d1e39a2f61a0d72a
+  resizeTextarea(textareaRef.value)
 })
 
 onUpdated(() => {
@@ -119,7 +103,6 @@ const cleanSelect = () => {
 }
 
 const resizeTextarea = (area) => {
-<<<<<<< HEAD
     area.style.overflow = 'hidden';
     area.style.height = 0;
     area.style.height = area.scrollHeight + 'px';
@@ -127,11 +110,6 @@ const resizeTextarea = (area) => {
         status: props.card.status,
         height: area.scrollHeight
     })
-=======
-  area.style.overflow = 'hidden';
-  area.style.height = 0;
-  area.style.height = area.scrollHeight + 'px';
->>>>>>> 10b419d4fada2d5c5762e6f6d1e39a2f61a0d72a
 }
 
 const setEditable = () => {
@@ -147,7 +125,6 @@ const mouseupHandler = () => {
 </script>
 
 <template>
-<<<<<<< HEAD
     <foreignObject
         :x="square.x"
         :y="square.y"
@@ -157,17 +134,6 @@ const mouseupHandler = () => {
         <div xmlns="http://www.w3.org/1999/xhtml">
             <div ref="wrapperRef" class="wrapper">
                 <div class="card" ref="cardRef">
-=======
-  <foreignObject
-      :x="square.x"
-      :y="square.y"
-      :width="300 + buttonsHeight + 5"
-      :height="wrapperHeight"
-  >
-    <div xmlns="http://www.w3.org/1999/xhtml">
-      <div ref="wrapperRef" class="wrapper">
-        <div class="card" ref="cardRef">
->>>>>>> 10b419d4fada2d5c5762e6f6d1e39a2f61a0d72a
                     <textarea
                         :class="{ unselectable: !editable }"
                         rows="1"
@@ -250,14 +216,8 @@ p {
 }
 
 .buttons {
-<<<<<<< HEAD
-    /* margin-top: 5px; */
     display: flex;
     flex-direction: column;
-=======
-  margin-top: 5px;
-  display: flex;
->>>>>>> 10b419d4fada2d5c5762e6f6d1e39a2f61a0d72a
 }
 
 textarea {

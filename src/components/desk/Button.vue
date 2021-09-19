@@ -87,26 +87,16 @@ onUpdated(() => {
   display: flex;
   justify-content: center;
 
-<<<<<<< HEAD
-    background: #9aa9b2;
+    /* background: #9aa9b2; */
+    background-color: #00000066;
     border-radius: 0.5em;
     box-sizing: border-box;
     margin-top: 5px;
-}
+    }
 
 /* .button + .button {
     margin-left: 5px;
 } */
-=======
-  background: #9aa9b2;
-  border-radius: 0.5em;
-  box-sizing: border-box;
-}
-
-.button + .button {
-  margin-left: 5px;
-}
->>>>>>> 10b419d4fada2d5c5762e6f6d1e39a2f61a0d72a
 
 /* Send music to friends */
 .button-text {
