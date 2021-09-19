@@ -75,6 +75,10 @@ const drop = () => {
     box.value.removeEventListener('mousemove', move)
     store.commit('lineCalc')
 
+    if (store.state.lineDraged) {
+        emitter.emit('stopDragLine', props.card.status);
+    }
+
 }
 const move = ({ offsetX, offsetY }) => {
     store.commit('changeCardPosition', {
@@ -107,6 +111,12 @@ const setEditable = () => {
     textareaRef.value.focus()
 }
 
+const mouseupHandler = () => {
+    // if (store.state.lineDraged) {
+    //     emitter.emit('stopDragLine', props.card.status);
+    // }
+}
+
 </script>
 
 <template>
@@ -127,6 +137,7 @@ const setEditable = () => {
                         @blur="editable = false"
                         @focus="resizeTextarea(textareaRef)"
                         @keyup="resizeTextarea(textareaRef)"
+                        @mouseup="mouseupHandler"
                         style="resize: none;"
                     ></textarea>
                 </div>
@@ -137,6 +148,7 @@ const setEditable = () => {
                         :button="button"
                         :cardHeight="cardHeight"
                         :cardPosition="square"
+                        :cardData="card"
                     ></Button>
                     <NewButton :currentButtonsCount="card.buttons.length" :card="card"></NewButton>
                 </div>

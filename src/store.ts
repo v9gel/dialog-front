@@ -1,9 +1,19 @@
 import { createStore } from 'vuex'
 import { nanoid } from 'nanoid';
 
+const mousePosition = {
+    x: 0,
+    y: 0
+}
+
 const store = createStore({
     state() {
         return {
+            lineDraged: false,
+            mousePosition: {
+                x: 0,
+                y: 0
+            },
             cards: [
                 {
                     "status": "START",
@@ -104,16 +114,28 @@ const store = createStore({
             card.position.x = payload.x
             card.position.y = payload.y
         },
+        changeMousePosition(state, payload) {
+            state.mousePosition.x = payload.x
+            state.mousePosition.y = payload.y
+        },
         lineCalc(state) {
             state.lines.splice(0, state.lines.length);
             state.cards.map(c1 => {
                 c1.buttons.map((b, index) => {
-                    const end = state.cards.find(c2 => c2.status === b.to);
+                    const end = state.cards.find(c2 => c2.status === b.to || b.to === 'MOUSE');
                     if (end) {
-
                         const buttonWidth = (300 / c1.buttons.length) - ((c1.buttons.length - 1) * 5)
-                        console.log(b.text, buttonWidth, index)
+                        // console.log(b.to)
 
+                        let endLine = {
+                            x: end.position.x + 150,
+                            y: end.position.y
+                        }
+                        if (b.to === 'MOUSE') {
+                            endLine.x = state.mousePosition.x;
+                            endLine.y = state.mousePosition.y;
+                            // console.log(111111)
+                        }
 
                         state.lines.push(
                             {
@@ -121,10 +143,11 @@ const store = createStore({
                                     x: c1.position.x + (buttonWidth / 2) + ((buttonWidth + 5) * (index)),
                                     y: c1.position.y + 64
                                 },
-                                end: {
-                                    x: end.position.x + 150,
-                                    y: end.position.y
-                                }
+                                end: endLine
+                                // end: {
+                                //     x: end.position.x + 150,
+                                //     y: end.position.y
+                                // }
                             }
                         )
                     }
@@ -141,11 +164,70 @@ const store = createStore({
 
                 }
             })
+        },
+        editButton(state, payload) {
+            const card = state.cards.find(e => e.status === payload.cardStatus);
+            const button = card.buttons.find(e => e.id === payload.buttonId);
+
+            if (payload.to === 'MOUSE') {
+                state.lineDraged = true;
+            }
+            button.to = payload.to;
+            card.buttons.reverse().reverse()
+        },
+        removeDragedLine(state, payload) {
+            state.cards.map(c1 => {
+                const button = c1.buttons.map(b => {
+                    if (b.to === 'MOUSE') {
+                        b.to = payload;
+                    }
+                })
+                // if (end) {
+                //     const buttonWidth = (300 / c1.buttons.length) - ((c1.buttons.length - 1) * 5)
+                //     // console.log(b.to)
+
+                //     let endLine = {
+                //         x: end.position.x + 150,
+                //         y: end.position.y
+                //     }
+                //     if (b.to === 'MOUSE') {
+                //         endLine.x = state.mousePosition.x;
+                //         endLine.y = state.mousePosition.y;
+                //         // console.log(111111)
+                //     }
+
+                //     state.lines.push(
+                //         {
+                //             start: {
+                //                 x: c1.position.x + (buttonWidth / 2) + ((buttonWidth + 5) * (index)),
+                //                 y: c1.position.y + 64
+                //             },
+                //             end: endLine
+                //             // end: {
+                //             //     x: end.position.x + 150,
+                //             //     y: end.position.y
+                //             // }
+                //         }
+                //     )
+                // }
+            })
         }
+        // addLine(state, payload) {
+
+        // }
     },
 })
 
 store.commit('lineCalc')
+
+// window.addEventListener(
+//     'mousemove', e => {
+//         mousePosition.x = e.offsetX;
+//         mousePosition.y = e.offsetY;
+//         store.commit('lineCalc')
+//     }
+
+// )
 
 export interface Coordinates {
     x: number,
@@ -153,6 +235,7 @@ export interface Coordinates {
 }
 
 export interface ButtonData {
+    id: string;
     text: string;
     to: string;
 }

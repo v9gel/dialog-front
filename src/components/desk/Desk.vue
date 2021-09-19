@@ -21,16 +21,22 @@ const add = () => {
 
 const json = () => {
     console.log(JSON.stringify(store.state.cards))
-    // var a = document.createElement("a");
-    // var file = new Blob([JSON.stringify(store.state.cards)], { type: 'text/plain' });
-    // a.href = URL.createObjectURL(file);
-    // a.download = 'dialog.json';
-    // a.click();
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(store.state.cards)], { type: 'text/plain' });
+    a.href = URL.createObjectURL(file);
+    a.download = 'dialog.json';
+    a.click();
+}
+
+const clickHandler = () => {
+    if (store.state.lineDraged) {
+        emitter.emit('stopDragLine', null);
+    }
 }
 </script>
 
 <template>
-    <svg ref="box" class="box" height="100%" width="100%">
+    <svg ref="box" class="box" height="100%" width="100%" @click="clickHandler">
         <rect width="100%" height="100%" fill="#C6D9DF" stroke-width="5" @mousedown="selectClean" />
         <slot />
         <foreignObject width="100" height="50" x="0" y="0">

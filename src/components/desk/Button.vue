@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "@vue/reactivity";
 import { createHydrationRenderer, getCurrentInstance, onMounted, onUpdated } from "@vue/runtime-core";
-import { ButtonData } from "../../store";
+import store, { ButtonData, CardData } from "../../store";
+import emitter from "./eventBus";
 
 const props = defineProps<{
     button: ButtonData;
@@ -9,13 +10,36 @@ const props = defineProps<{
     cardPosition: {
         x: number,
         y: number
-    }
+    },
+    cardData: CardData
 }>()
 
 const buttonRef = ref(null)
+const dragOffsetX = ref(0)
+const dragOffsetY = ref(0)
+const square = ref({
+    x: null,
+    y: null
+})
 
 const drag = (e) => {
+    store.commit('editButton', {
+        cardStatus: props.cardData.status,
+        buttonId: props.button.id,
+        to: 'MOUSE'
+    })
+    window.addEventListener('mousemove', move)
+    store.commit('lineCalc')
+}
 
+const move = ({ offsetX, offsetY }) => {
+    store.commit('changeMousePosition', {
+        x: offsetX,
+        y: offsetY
+    });
+    // square.value.x = offsetX - dragOffsetX.value;
+    // square.value.y = offsetY - dragOffsetY.value;
+    store.commit('lineCalc')
 }
 
 const calculateButtonPosition = () => {
@@ -26,11 +50,13 @@ const calculateButtonPosition = () => {
     props.button.position.x = x;
     props.button.position.y = y;
 
-    console.log(x,y)
 }
 
 onMounted(() => {
     calculateButtonPosition()
+    emitter.on('stopDragLine', (e) => {
+        store.commit('removeDragedLine', e);
+    })
 })
 
 onUpdated(() => {
@@ -49,7 +75,7 @@ onUpdated(() => {
 <template>
     <div class="button" ref="buttonRef" @mousedown="drag" @mouseup="() => { }">
         <!-- <div class="button-text unselectable">{{ props.button.text }}</div> -->
-        <input v-model="props.button.text">
+        <input v-model="props.button.text" />
     </div>
 </template>
 
