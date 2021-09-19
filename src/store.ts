@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import { nanoid } from 'nanoid';
+import {createStore} from 'vuex'
+import {nanoid} from 'nanoid';
 
 const mousePosition = {
     x: 0,
@@ -42,17 +42,13 @@ const store = createStore({
                             id: '43',
                             "text": "Побалтаем?",
                             "to": "TALK",
-                            position: {
-
-                            }
+                            position: {}
                         },
                         {
                             id: '53',
                             "text": "Мне пора",
                             "to": "END",
-                            position: {
-
-                            }
+                            position: {}
                         }
                     ],
                     position: {
@@ -68,9 +64,7 @@ const store = createStore({
                             id: '234',
                             "text": "Ну учись",
                             "to": "END",
-                            position: {
-
-                            }
+                            position: {}
                         }
                     ],
                     position: {
@@ -160,9 +154,7 @@ const store = createStore({
                 id: nanoid(),
                 "text": "Кнопка",
                 "to": null,
-                position: {
-
-                }
+                position: {}
             })
         },
         editButton(state, payload) {

@@ -1,49 +1,50 @@
 <script setup lang="ts">
-import store, { CardData } from "../../store";
+import store, {CardData} from "../../store";
 
 const props = defineProps<{
-    currentButtonsCount: number;
-    card: CardData
+  currentButtonsCount: number;
+  card: CardData
 }>()
 
 const addButton = () => {
-    store.commit('addButton', props.card.status);
+  store.commit('addButton', props.card.status);
 }
 </script>
 
 <template>
-    <div
-        :class="`new-button ${currentButtonsCount !== 0 ? ' right-button' : ''}`"
-        @click="addButton"
-    >
-        <div class="text">➕</div>
-    </div>
+  <div
+      :class="`new-button ${currentButtonsCount !== 0 ? ' right-button' : ''}`"
+      @click="addButton"
+  >
+    <div class="text">➕</div>
+  </div>
 </template>
 
 <style scoped>
 .new-button {
-    background: #9aa9b2;
-    border-radius: 0.5em;
-    box-sizing: border-box;
-    width: 300px;
-    height: 37px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background: #9aa9b2;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  width: 300px;
+  height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .right-button {
-    margin-left: 5px;
-    position: absolute;
-    left: 300px;
-    width: 37px;
+  margin-left: 5px;
+  position: absolute;
+  left: 300px;
+  width: 37px;
 }
+
 .text {
-    height: 14px;
-    font-family: Roboto;
-    font-style: regular;
-    font-weight: 500;
-    font-size: 14px;
-    color: white;
+  height: 14px;
+  font-family: Roboto;
+  font-style: regular;
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
 }
 </style>
