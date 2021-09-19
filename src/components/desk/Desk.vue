@@ -39,14 +39,29 @@ const clickHandler = () => {
     <svg ref="box" class="box" height="100%" width="100%" @click="clickHandler">
         <rect width="100%" height="100%" fill="#C6D9DF" stroke-width="5" @mousedown="selectClean" />
         <slot />
-        <foreignObject width="100" height="50" x="0" y="0">
+        <foreignObject width="100%" height="100%" x="0" y="0">
             <div xmlns="http://www.w3.org/1999/xhtml">
-                <button @click="add">add</button>
-                <button @click="json">export</button>
+              <div class="action-button-box">
+                <button class="action-button" @click="add">Создать новый узел</button>
+                <button class="action-button" @click="json">Скачать схему</button>
+              </div>
             </div>
         </foreignObject>
     </svg>
 </template>
 
 <style>
+
+.action-button-box {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.action-button {
+  margin: 5px;
+  padding: 5px;
+  width: 200px;
+}
+
 </style>
