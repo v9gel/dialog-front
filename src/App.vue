@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import Desk from "./components/desk/Desk.vue";
 import Card from "./components/desk/Card.vue";
-import { nanoid } from 'nanoid';
-import { ref } from "@vue/reactivity";
 import './assets/reset.css';
-import store, { CardData } from "./store";
+import store, {CardData} from "./store";
 import Line from "./components/desk/Line.vue";
 
 const cards = store.state.cards as unknown as CardData[];
@@ -17,7 +15,7 @@ const addCard = () => {
 <template>
   <Desk>
     <Line v-for="(line, index) in lines" :key="index" :start="line.start" :end="line.end"></Line>
-    <Card v-for="(card, index) in cards" :key="index" :card="card" />
+    <Card v-for="(card, index) in cards" :key="index" :card="card"/>
   </Desk>
   <!-- <button @click="addCard">add</button> -->
 </template>
@@ -45,9 +43,11 @@ body {
   -khtml-user-select: none; /* Konqueror */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  not supported by any browser */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                   not supported by any browser */
 }
+
 .unselectable::selection {
   color: currentColor;
   background: transparent;
