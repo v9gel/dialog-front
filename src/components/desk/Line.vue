@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const makePath = () => {
-    const x1 = props.start.x;
+    let x1 = props.start.x;
     const y1 = props.start.y;
     const x2 = props.end.x;
     const y2 = props.end.y;
@@ -19,7 +19,11 @@ const makePath = () => {
     // const c1 = y2 - y1
     // const c2 = x2 - x1
 
-    return `M${x1},${y1} C${x1},${y2} ${x2},${y1} ${x2},${y2-10}`;
+    // return `M${x1},${y1} C${x1},${y2} ${x2},${y1} ${x2},${y2-10}`;
+    if(x2 < x1 - 150){
+        x1 = x1 - 300;
+    }
+    return `M${x1},${y1} Q${x2},${y1} ${x2},${y2-10}`;
 }
 
 const triangle = () => {

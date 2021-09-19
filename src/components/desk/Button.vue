@@ -90,11 +90,12 @@ onUpdated(() => {
     background: #9aa9b2;
     border-radius: 0.5em;
     box-sizing: border-box;
+    margin-top: 5px;
 }
 
-.button + .button {
+/* .button + .button {
     margin-left: 5px;
-}
+} */
 
 /* Send music to friends */
 .button-text {

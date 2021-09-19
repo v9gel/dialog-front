@@ -140,8 +140,8 @@ const store = createStore({
                         state.lines.push(
                             {
                                 start: {
-                                    x: c1.position.x + (buttonWidth / 2) + ((buttonWidth + 5) * (index)),
-                                    y: c1.position.y + 64
+                                    x: c1.position.x + 300,
+                                    y: c1.position.y + c1.height + (37/2) + 5 + (index * (37 + 5))
                                 },
                                 end: endLine
                                 // end: {
@@ -153,6 +153,10 @@ const store = createStore({
                     }
                 })
             })
+        },
+        updateCardHeight(state, payload){
+            const card = state.cards.find(e => e.status === payload.status)
+            card.height = payload.height;
         },
         addButton(state, payload) {
             const card = state.cards.find(e => e.status === payload)
@@ -247,7 +251,8 @@ export interface CardData {
     position: {
         x: number,
         y: number
-    }
+    },
+    height: number
 }
 
 

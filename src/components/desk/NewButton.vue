@@ -13,7 +13,7 @@ const addButton = () => {
 
 <template>
     <div
-        :class="`new-button ${currentButtonsCount !== 0 ? ' right-button' : ''}`"
+        :class="`new-button`"
         @click="addButton"
     >
         <div class="text">➕</div>
@@ -22,6 +22,7 @@ const addButton = () => {
 
 <style scoped>
 .new-button {
+    margin-top: 5px;
     background: #9aa9b2;
     border-radius: 0.5em;
     box-sizing: border-box;

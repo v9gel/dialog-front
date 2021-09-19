@@ -37,6 +37,8 @@ onMounted(() => {
     //         ta.firstChild.dispatchEvent(new Event("keyup"));
     //     });
     // });
+
+    resizeTextarea(textareaRef.value);
 })
 
 onUpdated(() => {
@@ -104,6 +106,10 @@ const resizeTextarea = (area) => {
     area.style.overflow = 'hidden';
     area.style.height = 0;
     area.style.height = area.scrollHeight + 'px';
+    store.commit('updateCardHeight', {
+        status: props.card.status,
+        height: area.scrollHeight
+    })
 }
 
 const setEditable = () => {
@@ -116,14 +122,13 @@ const mouseupHandler = () => {
     //     emitter.emit('stopDragLine', props.card.status);
     // }
 }
-
 </script>
 
 <template>
     <foreignObject
         :x="square.x"
         :y="square.y"
-        :width="300 + buttonsHeight + 5"
+        :width="300"
         :height="wrapperHeight"
     >
         <div xmlns="http://www.w3.org/1999/xhtml">
@@ -211,8 +216,9 @@ p {
 }
 
 .buttons {
-    margin-top: 5px;
+    /* margin-top: 5px; */
     display: flex;
+    flex-direction: column;
 }
 
 textarea {
